@@ -77,6 +77,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -463,9 +464,11 @@ public class MetaDataCreateIndexService extends AbstractComponent {
 
                 // now, update the mappings with the actual source
                 Map<String, MappingMetaData> mappingsMetaData = new HashMap<>();
-                for (DocumentMapper mapper : mapperService.docMappers(true)) {
-                    MappingMetaData mappingMd = new MappingMetaData(mapper);
-                    mappingsMetaData.put(mapper.type(), mappingMd);
+                for (DocumentMapper mapper : Arrays.asList(mapperService.documentMapper(), mapperService.documentMapper(MapperService.DEFAULT_MAPPING))) {
+                    if (mapper != null) {
+                        MappingMetaData mappingMd = new MappingMetaData(mapper);
+                        mappingsMetaData.put(mapper.type(), mappingMd);
+                    }
                 }
 
                 final IndexMetaData.Builder indexMetaDataBuilder = IndexMetaData.builder(request.index())

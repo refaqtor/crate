@@ -81,6 +81,7 @@ import org.joda.time.DateTimeZone;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -242,9 +243,15 @@ public class TransportCreatePartitionsAction
 
                 // now, update the mappings with the actual source
                 Map<String, MappingMetaData> mappingsMetaData = Maps.newHashMap();
-                for (DocumentMapper mapper : mapperService.docMappers(true)) {
-                    MappingMetaData mappingMd = new MappingMetaData(mapper);
-                    mappingsMetaData.put(mapper.type(), mappingMd);
+
+                List<DocumentMapper> documentMappers = Arrays.asList(
+                    mapperService.documentMapper(),
+                    mapperService.documentMapper(MapperService.DEFAULT_MAPPING));
+                for (DocumentMapper mapper : documentMappers) {
+                    if (mapper != null) {
+                        MappingMetaData mappingMd = new MappingMetaData(mapper);
+                        mappingsMetaData.put(mapper.type(), mappingMd);
+                    }
                 }
 
                 final IndexMetaData.Builder indexMetaDataBuilder = IndexMetaData.builder(index)
