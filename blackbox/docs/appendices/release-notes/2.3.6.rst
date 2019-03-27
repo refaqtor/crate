@@ -48,7 +48,7 @@ Fixes
   column which in turn is used for partitioning. E.g.::
 
     CREATE TABLE parted_t(
-        t TIMESTAMP,
+        t TIMESTAMP WITH TIME ZONE,
         day TIMESTAMP GENERATED ALWAYS AS date_trunc('day', t)
     ) PARTITIONED BY (day);
 

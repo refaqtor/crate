@@ -199,8 +199,17 @@ Example::
 
 .. _data-type-timestamp:
 
-``timestamp``
-=============
+Date/Time Types
+===============
+
++------------------------------+---------+------------------------------+------------------------------------+
+| Name                         | Size    | Description                  | Range                              |
++==============================+=========+==============================+====================================+
+| ``timestamp with time zone`` | 8 bytes | time and date with time zone | ``292275054BC`` to ``292278993AD`` |
++------------------------------+---------+------------------------------+------------------------------------+
+
+``timestamp with time zone``
+----------------------------
 
 The timestamp type is a special type which maps to a formatted string.
 Internally it maps to the UTC milliseconds since ``1970-01-01T00:00:00Z`` stored
@@ -225,7 +234,7 @@ Examples::
 
     cr> create table my_table4 (
     ...   id integer,
-    ...   first_column timestamp
+    ...   first_column timestamp with time zone
     ... );
     CREATE OK, 1 row affected (... sec)
 
@@ -254,7 +263,7 @@ Examples::
 ::
 
     cr> insert into my_table4 (id, first_column) values (3, 'wrong');
-    SQLActionException[ColumnValidationException: Validation failed for first_column: Cannot cast 'wrong' to type timestamp]
+    SQLActionException[ColumnValidationException: Validation failed for first_column: Cannot cast 'wrong' to type timestamp with time zone]
 
 .. CAUTION::
 
@@ -467,7 +476,7 @@ Example::
     ...     age integer,
     ...     name text,
     ...     col31 object as (
-    ...       birthday timestamp
+    ...       birthday timestamp with time zone
     ...     )
     ...   )
     ... );
@@ -492,7 +501,7 @@ Example::
     ...   title text,
     ...   author object(strict) as (
     ...     name text,
-    ...     birthday timestamp
+    ...     birthday timestamp with time zone
     ...   )
     ... );
     CREATE OK, 1 row affected (... sec)
@@ -523,7 +532,7 @@ Examples::
     ...   title text,
     ...   author object as (
     ...     name text,
-    ...     birthday timestamp
+    ...     birthday timestamp with time zone
     ...   )
     ... );
     CREATE OK, 1 row affected (... sec)
@@ -539,7 +548,7 @@ which is exactly the same as::
     ...   title text,
     ...   author object(dynamic) as (
     ...     name text,
-    ...     birthday timestamp
+    ...     birthday timestamp with time zone
     ...   )
     ... );
     CREATE OK, 1 row affected (... sec)
