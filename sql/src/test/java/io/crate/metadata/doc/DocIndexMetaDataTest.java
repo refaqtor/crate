@@ -255,7 +255,7 @@ public class DocIndexMetaDataTest extends CrateDummyClusterServiceUnitTest {
         assertThat(md.references().size(), is(21));
 
         Reference birthday = md.references().get(new ColumnIdent("person", "birthday"));
-        assertThat(birthday.valueType(), is(DataTypes.TIMESTAMP));
+        assertThat(birthday.valueType(), is(DataTypes.TIMESTAMPZ));
         assertThat(birthday.indexType(), is(Reference.IndexType.NOT_ANALYZED));
 
         Reference integerIndexed = md.references().get(new ColumnIdent("integerIndexed"));
@@ -354,7 +354,7 @@ public class DocIndexMetaDataTest extends CrateDummyClusterServiceUnitTest {
         assertEquals(6, md.columns().size());
         assertEquals(17, md.references().size());
         assertEquals(1, md.partitionedByColumns().size());
-        assertEquals(DataTypes.TIMESTAMP, md.partitionedByColumns().get(0).valueType());
+        assertEquals(DataTypes.TIMESTAMPZ, md.partitionedByColumns().get(0).valueType());
         assertThat(md.partitionedByColumns().get(0).column().fqn(), is("datum"));
 
         assertThat(md.partitionedBy().size(), is(1));
@@ -1203,7 +1203,7 @@ public class DocIndexMetaDataTest extends CrateDummyClusterServiceUnitTest {
         assertThat(docIndexMetaData.references().get(ColumnIdent.fromPath("array_col")).valueType(),
             is(DataTypes.IP));
         assertThat(docIndexMetaData.references().get(ColumnIdent.fromPath("nested.inner_nested")).valueType(),
-            is(DataTypes.TIMESTAMP));
+            is(DataTypes.TIMESTAMPZ));
     }
 
     @Test
@@ -1245,7 +1245,7 @@ public class DocIndexMetaDataTest extends CrateDummyClusterServiceUnitTest {
         assertThat(docIndexMetaData.references().get(ColumnIdent.fromPath("array_col")).valueType(),
             is(new ArrayType(DataTypes.IP)));
         assertThat(docIndexMetaData.references().get(ColumnIdent.fromPath("nested.inner_nested")).valueType(),
-            is(new ArrayType(DataTypes.TIMESTAMP)));
+            is(new ArrayType(DataTypes.TIMESTAMPZ)));
     }
 
     @Test

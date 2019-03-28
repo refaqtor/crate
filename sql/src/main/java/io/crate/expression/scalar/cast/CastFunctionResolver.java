@@ -86,7 +86,7 @@ public class CastFunctionResolver {
         .put(DataTypes.STRING, FunctionNames.TO_STRING)
         .put(DataTypes.INTEGER, FunctionNames.TO_INTEGER)
         .put(DataTypes.LONG, FunctionNames.TO_LONG)
-        .put(DataTypes.TIMESTAMP, FunctionNames.TO_TIMESTAMP)
+        .put(DataTypes.TIMESTAMPZ, FunctionNames.TO_TIMESTAMP)
         .put(DataTypes.DOUBLE, FunctionNames.TO_DOUBLE)
         .put(DataTypes.BOOLEAN, FunctionNames.TO_BOOLEAN)
         .put(DataTypes.FLOAT, FunctionNames.TO_FLOAT)
@@ -110,7 +110,7 @@ public class CastFunctionResolver {
         .put(new ArrayType(DataTypes.FLOAT), FunctionNames.TO_FLOAT_ARRAY)
         .put(new ArrayType(DataTypes.SHORT), FunctionNames.TO_SHORT_ARRAY)
         .put(new ArrayType(DataTypes.IP), FunctionNames.TO_IP_ARRAY)
-        .put(new ArrayType(DataTypes.TIMESTAMP), FunctionNames.TO_TIMESTAMP_ARRAY)
+        .put(new ArrayType(DataTypes.TIMESTAMPZ), FunctionNames.TO_TIMESTAMP_ARRAY)
         .build();
 
     private static final ImmutableMap<DataType, String> SET_FUNCTION_MAP = new ImmutableMap.Builder<DataType, String>()

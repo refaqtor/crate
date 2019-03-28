@@ -77,7 +77,7 @@ public abstract class AbstractScalarFunctionsTest extends CrateUnitTest {
     private InputFactory inputFactory;
 
     @Before
-    public void prepareFunctions() throws Exception {
+    public void prepareFunctions() {
         DocTableInfo tableInfo = TestingTableInfo.builder(new RelationName(DocSchemaInfo.NAME, "users"), null)
             .add("id", DataTypes.INTEGER)
             .add("name", DataTypes.STRING)
@@ -86,7 +86,7 @@ public abstract class AbstractScalarFunctionsTest extends CrateUnitTest {
             .add("a", DataTypes.INTEGER)
             .add("x", DataTypes.LONG)
             .add("shape", DataTypes.GEO_SHAPE)
-            .add("timestamp", DataTypes.TIMESTAMP)
+            .add("timestamp", DataTypes.TIMESTAMPZ)
             .add("timezone", DataTypes.STRING)
             .add("interval", DataTypes.STRING)
             .add("time_format", DataTypes.STRING)

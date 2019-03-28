@@ -60,7 +60,7 @@ public class AverageAggregation extends AggregationFunction<AverageAggregation.A
                     FunctionInfo.Type.AGGREGATE)));
             }
             mod.register(new AverageAggregation(new FunctionInfo(
-                new FunctionIdent(name, ImmutableList.<DataType>of(DataTypes.TIMESTAMP)), DataTypes.DOUBLE,
+                new FunctionIdent(name, ImmutableList.of(DataTypes.TIMESTAMPZ)), DataTypes.DOUBLE,
                 FunctionInfo.Type.AGGREGATE)));
         }
     }

@@ -47,7 +47,7 @@ public class CurrentTimestampFunction extends Scalar<Long, Integer> implements F
 
     public static final FunctionInfo INFO = new FunctionInfo(
         new FunctionIdent(NAME, ImmutableList.<DataType>of(DataTypes.INTEGER)),
-        DataTypes.TIMESTAMP,
+        DataTypes.TIMESTAMPZ,
         FunctionInfo.Type.SCALAR,
         Collections.emptySet());
 

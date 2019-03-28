@@ -71,7 +71,7 @@ public class SortSymbolVisitor extends SymbolVisitor<SortSymbolVisitor.SortSymbo
         .put(DataTypes.INTEGER, SortField.Type.LONG)
         .put(DataTypes.FLOAT, SortField.Type.FLOAT)
         .put(DataTypes.DOUBLE, SortField.Type.DOUBLE)
-        .put(DataTypes.TIMESTAMP, SortField.Type.LONG)
+        .put(DataTypes.TIMESTAMPZ, SortField.Type.LONG)
         .put(DataTypes.IP, SortField.Type.LONG)
         .put(DataTypes.STRING, SortField.Type.STRING)
         .build();

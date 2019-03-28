@@ -32,6 +32,7 @@ import io.crate.types.DataTypes;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class GeometricMeanAggregationtest extends AggregationTest {
 
@@ -41,7 +42,7 @@ public class GeometricMeanAggregationtest extends AggregationTest {
 
     @Test
     public void testReturnType() throws Exception {
-        for (DataType<?> type : Iterables.concat(DataTypes.NUMERIC_PRIMITIVE_TYPES, Arrays.asList(DataTypes.TIMESTAMP))) {
+        for (DataType<?> type : Iterables.concat(DataTypes.NUMERIC_PRIMITIVE_TYPES, List.of(DataTypes.TIMESTAMPZ))) {
             // Return type is fixed to Double
             assertEquals(DataTypes.DOUBLE,
                 getGeometricMean(type).info().returnType());

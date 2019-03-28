@@ -56,7 +56,7 @@ public class StandardDeviationAggregation extends AggregationFunction<StandardDe
                 FunctionInfo.Type.AGGREGATE)));
         }
         mod.register(new StandardDeviationAggregation(new FunctionInfo(
-            new FunctionIdent(NAME, ImmutableList.<DataType>of(DataTypes.TIMESTAMP)), DataTypes.DOUBLE,
+            new FunctionIdent(NAME, ImmutableList.of(DataTypes.TIMESTAMPZ)), DataTypes.DOUBLE,
             FunctionInfo.Type.AGGREGATE)));
     }
 

@@ -57,7 +57,7 @@ public class VarianceAggregation extends AggregationFunction<VarianceAggregation
                 FunctionInfo.Type.AGGREGATE)));
         }
         mod.register(new VarianceAggregation(new FunctionInfo(
-            new FunctionIdent(NAME, ImmutableList.<DataType>of(DataTypes.TIMESTAMP)), DataTypes.DOUBLE,
+            new FunctionIdent(NAME, ImmutableList.of(DataTypes.TIMESTAMPZ)), DataTypes.DOUBLE,
             FunctionInfo.Type.AGGREGATE)));
     }
 

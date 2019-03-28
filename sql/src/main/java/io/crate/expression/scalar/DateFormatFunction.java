@@ -41,8 +41,8 @@ public class DateFormatFunction extends Scalar<String, Object> {
     public static final String DEFAULT_FORMAT = "%Y-%m-%dT%H:%i:%s.%fZ";
 
     public static void register(ScalarFunctionModule module) {
-        List<DataType> supportedTimestampTypes = ImmutableList.<DataType>of(
-            DataTypes.TIMESTAMP, DataTypes.LONG, DataTypes.STRING);
+        List<DataType> supportedTimestampTypes = ImmutableList.of(
+            DataTypes.TIMESTAMPZ, DataTypes.LONG, DataTypes.STRING);
         for (DataType dataType : supportedTimestampTypes) {
             // without format
             module.register(new DateFormatFunction(new FunctionInfo(

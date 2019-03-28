@@ -657,14 +657,14 @@ public class GroupByPlannerTest extends CrateDummyClusterServiceUnitTest {
     }
 
     @Test
-    public void testGroupByOrderByPartitionedClolumn() throws Exception {
+    public void testGroupByOrderByPartitionedClolumn() {
         Merge plan = e.plan("select date from clustered_parted group by date order by date");
         Merge reduceMerge = (Merge) plan.subPlan();
         OrderedTopNProjection topNProjection = (OrderedTopNProjection)reduceMerge.mergePhase().projections().get(1);
 
         Symbol orderBy = topNProjection.orderBy().get(0);
         assertThat(orderBy, instanceOf(InputColumn.class));
-        assertThat(orderBy.valueType(), is(DataTypes.TIMESTAMP));
+        assertThat(orderBy.valueType(), is(DataTypes.TIMESTAMPZ));
     }
 
     @Test

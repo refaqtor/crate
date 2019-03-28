@@ -41,7 +41,7 @@ import java.util.Locale;
 
 public class ExtractFunctions {
 
-    private static final ImmutableList<DataType> ARGUMENT_TYPES = ImmutableList.of(DataTypes.TIMESTAMP);
+    private static final ImmutableList<DataType> ARGUMENT_TYPES = ImmutableList.of(DataTypes.TIMESTAMPZ);
     private static final String NAME_PREFIX = "extract_";
 
     private static final String EXTRACT_EPOCH_PREFIX = "extract(epoch from ";
