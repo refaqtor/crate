@@ -135,7 +135,7 @@ class TimestampType extends PGType {
 
     @Override
     Object decodeUTF8Text(byte[] bytes) {
-        // Currently seems that only GoLang prepared statements are sent as TimestampType
+        // Currently seems that only GoLang prepared statements are sent as TimestampZType
         // Other PostgreSQL clients send the parameter as Bigint or Varchar
         String s = new String(bytes, StandardCharsets.UTF_8);
 

@@ -41,7 +41,7 @@ import io.crate.types.FloatType;
 import io.crate.types.IntegerType;
 import io.crate.types.LongType;
 import io.crate.types.ShortType;
-import io.crate.types.TimestampType;
+import io.crate.types.TimestampZType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -186,7 +186,7 @@ public class ArithmeticFunctions {
                     break;
 
                 case LongType.ID:
-                case TimestampType.ID:
+                case TimestampZType.ID:
                     scalar = new BinaryScalar<>(longFunction, name, DataTypes.LONG, features);
                     break;
 

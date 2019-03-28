@@ -28,12 +28,12 @@ import org.elasticsearch.common.io.stream.StreamOutput;
 
 import java.io.IOException;
 
-public class TimestampType extends DataType<Long> implements FixedWidthType, Streamer<Long> {
+public class TimestampZType extends DataType<Long> implements FixedWidthType, Streamer<Long> {
 
-    public static final TimestampType INSTANCE = new TimestampType();
+    public static final TimestampZType INSTANCE = new TimestampZType();
     public static final int ID = 11;
 
-    private TimestampType() {
+    private TimestampZType() {
     }
 
     @Override

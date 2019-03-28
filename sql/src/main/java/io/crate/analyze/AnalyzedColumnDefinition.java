@@ -37,7 +37,7 @@ import io.crate.types.DataTypes;
 import io.crate.types.GeoShapeType;
 import io.crate.types.ObjectType;
 import io.crate.types.StringType;
-import io.crate.types.TimestampType;
+import io.crate.types.TimestampZType;
 import org.elasticsearch.common.settings.Settings;
 
 import javax.annotation.Nullable;
@@ -250,7 +250,7 @@ public class AnalyzedColumnDefinition {
 
     String typeNameForESMapping() {
         switch (dataType.id()) {
-            case TimestampType.ID:
+            case TimestampZType.ID:
                 return "date";
 
             case StringType.ID:
@@ -263,7 +263,7 @@ public class AnalyzedColumnDefinition {
 
     private void addTypeOptions(Map<String, Object> mapping) {
         switch (dataType.id()) {
-            case TimestampType.ID:
+            case TimestampZType.ID:
                 /*
                  * We want 1000 not be be interpreted as year 1000AD but as 1970-01-01T00:00:01.000
                  * so prefer date mapping format epoch_millis over strict_date_optional_time

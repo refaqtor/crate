@@ -25,7 +25,7 @@ import io.crate.testing.UseJdbc;
 import io.crate.types.ArrayType;
 import io.crate.types.DataType;
 import io.crate.types.StringType;
-import io.crate.types.TimestampType;
+import io.crate.types.TimestampZType;
 import org.elasticsearch.Version;
 import org.elasticsearch.action.admin.cluster.snapshots.create.CreateSnapshotResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
@@ -144,10 +144,10 @@ public class SysSnapshotsTest extends SQLTransportIntegrationTest {
         assertThat(response.columnTypes(), is(
             new DataType[]{
                 new ArrayType(StringType.INSTANCE),
-                TimestampType.INSTANCE,
+                TimestampZType.INSTANCE,
                 StringType.INSTANCE,
                 StringType.INSTANCE,
-                TimestampType.INSTANCE,
+                TimestampZType.INSTANCE,
                 StringType.INSTANCE,
                 StringType.INSTANCE
             }));
