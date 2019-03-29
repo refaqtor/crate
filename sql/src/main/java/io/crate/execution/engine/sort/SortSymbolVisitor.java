@@ -46,7 +46,7 @@ import io.crate.types.IntegerType;
 import io.crate.types.LongType;
 import io.crate.types.ShortType;
 import io.crate.types.StringType;
-import io.crate.types.TimestampType;
+import io.crate.types.TimestampZType;
 import org.apache.lucene.search.FieldComparator;
 import org.apache.lucene.search.FieldComparatorSource;
 import org.apache.lucene.search.SortField;
@@ -71,7 +71,7 @@ public class SortSymbolVisitor extends SymbolVisitor<SortSymbolVisitor.SortSymbo
         .put(DataTypes.INTEGER, SortField.Type.LONG)
         .put(DataTypes.FLOAT, SortField.Type.FLOAT)
         .put(DataTypes.DOUBLE, SortField.Type.DOUBLE)
-        .put(DataTypes.TIMESTAMP, SortField.Type.LONG)
+        .put(DataTypes.TIMESTAMPZ, SortField.Type.LONG)
         .put(DataTypes.IP, SortField.Type.LONG)
         .put(DataTypes.STRING, SortField.Type.STRING)
         .build();
@@ -238,7 +238,7 @@ public class SortSymbolVisitor extends SymbolVisitor<SortSymbolVisitor.SortSymbo
                 return min ? Float.NEGATIVE_INFINITY : Float.POSITIVE_INFINITY;
             case DoubleType.ID:
                 return min ? Double.NEGATIVE_INFINITY : Double.POSITIVE_INFINITY;
-            case TimestampType.ID:
+            case TimestampZType.ID:
                 return min ? Long.MIN_VALUE : Long.MAX_VALUE;
             case StringType.ID:
                 return null;

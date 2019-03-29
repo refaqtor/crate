@@ -58,7 +58,7 @@ public class GeometricMeanAggregation extends AggregationFunction<GeometricMeanA
                 FunctionInfo.Type.AGGREGATE)));
         }
         mod.register(new GeometricMeanAggregation(new FunctionInfo(
-            new FunctionIdent(NAME, ImmutableList.<DataType>of(DataTypes.TIMESTAMP)), DataTypes.DOUBLE,
+            new FunctionIdent(NAME, ImmutableList.<DataType>of(DataTypes.TIMESTAMPZ)), DataTypes.DOUBLE,
             FunctionInfo.Type.AGGREGATE)));
     }
 

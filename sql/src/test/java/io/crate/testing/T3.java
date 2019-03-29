@@ -103,7 +103,7 @@ public class T3 {
         new TestingTableInfo.Builder(new RelationName(Schemas.DOC_SCHEMA_NAME, "t5"), t5Routing)
             .add("i", DataTypes.INTEGER)
             .add("w", DataTypes.LONG)
-            .add("ts", DataTypes.TIMESTAMP)
+            .add("ts", DataTypes.TIMESTAMPZ)
             .build();
     public static final DocTableRelation TR_5 = new DocTableRelation(T5_INFO);
 

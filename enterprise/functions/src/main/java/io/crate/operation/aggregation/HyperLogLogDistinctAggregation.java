@@ -38,7 +38,7 @@ import io.crate.types.IpType;
 import io.crate.types.LongType;
 import io.crate.types.ShortType;
 import io.crate.types.StringType;
-import io.crate.types.TimestampType;
+import io.crate.types.TimestampZType;
 import org.apache.lucene.util.BytesRef;
 import org.elasticsearch.Version;
 import org.elasticsearch.common.breaker.CircuitBreakingException;
@@ -280,7 +280,7 @@ public class HyperLogLogDistinctAggregation extends AggregationFunction<HyperLog
                 case IntegerType.ID:
                 case ShortType.ID:
                 case ByteType.ID:
-                case TimestampType.ID:
+                case TimestampZType.ID:
                     return Long.INSTANCE;
                 case StringType.ID:
                 case BooleanType.ID:

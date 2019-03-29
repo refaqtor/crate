@@ -22,24 +22,14 @@
 package io.crate.types;
 
 import io.crate.Streamer;
-import io.crate.TimestampFormat;
 import org.elasticsearch.common.io.stream.StreamInput;
 import org.elasticsearch.common.io.stream.StreamOutput;
 
 import java.io.IOException;
 
-public class TimestampType extends DataType<Long> implements FixedWidthType, Streamer<Long> {
-
-    public static final TimestampType INSTANCE = new TimestampType();
-    public static final int ID = 11;
-
-    private TimestampType() {
-    }
-
-    @Override
-    public int id() {
-        return ID;
-    }
+public abstract class BaseTimestampType
+    extends DataType<Long>
+    implements FixedWidthType, Streamer<Long> {
 
     @Override
     public Precedence precedence() {
@@ -47,14 +37,11 @@ public class TimestampType extends DataType<Long> implements FixedWidthType, Str
     }
 
     @Override
-    public String getName() {
-        return "timestamp with time zone";
-    }
-
-    @Override
     public Streamer<Long> streamer() {
         return this;
     }
+
+    public abstract Long valueFrom(String timestamp);
 
     @Override
     public Long value(Object value) throws ClassCastException {
@@ -62,7 +49,7 @@ public class TimestampType extends DataType<Long> implements FixedWidthType, Str
             return null;
         }
         if (value instanceof String) {
-            return valueFromString((String) value);
+            return valueFrom((String) value);
         }
         // we treat float and double values as seconds with milliseconds as fractions
         // see timestamp documentation
@@ -81,14 +68,6 @@ public class TimestampType extends DataType<Long> implements FixedWidthType, Str
     @Override
     public int compareValueTo(Long val1, Long val2) {
         return nullSafeCompareValueTo(val1, val2, Long::compare);
-    }
-
-    private Long valueFromString(String s) {
-        try {
-            return Long.valueOf(s);
-        } catch (NumberFormatException e) {
-            return TimestampFormat.parseTimestampString(s);
-        }
     }
 
     @Override

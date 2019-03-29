@@ -21,14 +21,33 @@
 
 package io.crate.types;
 
-import org.apache.lucene.util.BytesRef;
+import io.crate.TimestampFormat;
 
-public class TypeTestUtils {
 
-    public static BytesRef addOffset(BytesRef bytesRef) {
-        byte[] result = new byte[bytesRef.length + 2];
-        System.arraycopy(new byte[]{0, 1}, 0, result, 0, 2); // OFFSET
-        System.arraycopy(bytesRef.bytes, 0, result, 2, bytesRef.length);
-        return new BytesRef(result, 2, bytesRef.length);
+public final class TimestampZType extends BaseTimestampType {
+
+    public static final TimestampZType INSTANCE = new TimestampZType();
+    public static final int ID = 11;
+
+    private TimestampZType() {
+    }
+
+    @Override
+    public int id() {
+        return ID;
+    }
+
+    @Override
+    public String getName() {
+        return "timestamp with time zone";
+    }
+
+    @Override
+    public Long valueFrom(String timestamp) {
+        try {
+            return Long.valueOf(timestamp);
+        } catch (NumberFormatException e) {
+            return TimestampFormat.parseTimestampString(timestamp);
+        }
     }
 }

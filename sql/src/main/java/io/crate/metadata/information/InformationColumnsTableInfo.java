@@ -154,7 +154,7 @@ public class InformationColumnsTableInfo extends InformationTableInfo {
                 () -> NestableCollectExpression.constant(null))
             .put(Columns.DATETIME_PRECISION,
                 () -> NestableCollectExpression.forFunction(r -> {
-                    if (r.info.valueType() == DataTypes.TIMESTAMP) {
+                    if (r.info.valueType() == DataTypes.TIMESTAMPZ) {
                         return DATETIME_PRECISION;
                     }
                     return null;
