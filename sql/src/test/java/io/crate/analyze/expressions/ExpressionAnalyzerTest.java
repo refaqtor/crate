@@ -361,6 +361,13 @@ public class ExpressionAnalyzerTest extends CrateDummyClusterServiceUnitTest {
     }
 
     @Test
+    public void testTimestampZIsCastedToLong() {
+        SqlExpressions expressions = new SqlExpressions(T3.SOURCES);
+        Symbol symbol = expressions.asSymbol("doc.t5.ts_z :: long");
+        assertThat(symbol.valueType(), is(DataTypes.LONG));
+    }
+
+    @Test
     public void testTimestampIsCastedToLong() {
         SqlExpressions expressions = new SqlExpressions(T3.SOURCES);
         Symbol symbol = expressions.asSymbol("doc.t5.ts :: long");

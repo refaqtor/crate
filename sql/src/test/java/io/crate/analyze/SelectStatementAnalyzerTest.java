@@ -1651,7 +1651,7 @@ public class SelectStatementAnalyzerTest extends CrateDummyClusterServiceUnitTes
     }
 
     @Test
-    public void selectCurrentTimeStamp() {
+    public void selectCurrentTimestamp() {
         QueriedRelation relation = analyze("select CURRENT_TIMESTAMP from sys.cluster");
         Symbol currentTime = relation.querySpec().outputs().get(0);
         assertThat(currentTime, instanceOf(Literal.class));

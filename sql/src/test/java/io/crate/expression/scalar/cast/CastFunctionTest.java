@@ -37,7 +37,7 @@ public class CastFunctionTest extends AbstractScalarFunctionsTest {
     // cast is just a wrapper around  DataType.value(val) which is why here are just a few tests
 
     @Test
-    public void testNormalize() throws Exception {
+    public void testNormalize() {
         assertNormalize("cast(name as long)", isFunction("to_long"));
     }
 
@@ -47,14 +47,10 @@ public class CastFunctionTest extends AbstractScalarFunctionsTest {
         assertEvaluate("cast(null as string)", null);
         assertEvaluate("cast(10.4 as long)", 10L);
         assertEvaluate("to_long_array([10.2, 12.3])", new Long[] { 10L, 12L });
-        Map<String, Object> object = new HashMap<>();
-        object.put("x", 10);
-        assertEvaluate("'{\"x\": 10}'::object", object);
 
+        Map<String, Object> object = Map.of("x", 10);
+        assertEvaluate("'{\"x\": 10}'::object", object);
         assertEvaluate("cast(name as object)", object, Literal.of("{\"x\": 10}"));
-        assertEvaluate(
-            "cast(['2017-01-01','2017-12-31'] as array(timestamp with time zone))",
-            new Long[] {1483228800000L, 1514678400000L});
     }
 
     @Test
@@ -75,5 +71,25 @@ public class CastFunctionTest extends AbstractScalarFunctionsTest {
         assertEvaluate("'-4'::long", -4L);
         assertEvaluate("-4::string || ' apples'", "-4 apples");
         assertEvaluate("'-4'::long + 10", 6L);
+    }
+
+    @Test
+    public void testCastToTimestampDataTypes() {
+        assertEvaluate("'2001-01-01T01:01:01+01'::timestamp", 978310861000L);
+        assertEvaluate("'2001-01-01T01:01:01+01'::timestamp without time zone", 978310861000L);
+        assertEvaluate("'2001-01-01T01:01:01Z'::timestamp with time zone", 978310861000L);
+    }
+
+    @Test
+    public void testCastToTimestampArrayDataTypes() {
+        assertEvaluate(
+            "cast(['2001-01-01T01:01:01+01', '2001-01-01T01:01:01+10'] as array(timestamp))",
+            new Long[]{978310861000L, 978310861000L}
+        );
+
+        assertEvaluate(
+            "cast(['2001-01-01T01:01:01Z'] as array(timestamp with time zone))",
+            new Long[]{978310861000L}
+        );
     }
 }

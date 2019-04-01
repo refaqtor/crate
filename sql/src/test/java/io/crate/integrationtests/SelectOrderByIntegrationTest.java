@@ -143,16 +143,19 @@ public class SelectOrderByIntegrationTest extends SQLTransportIntegrationTest {
             "create table t1 (" +
             "   i integer," +
             "   d double," +
-            "   t timestamp with time zone," +
+            "   t_z timestamp with time zone," +
+            "   t timestamp without time zone," +
             "   str string" +
             ") clustered into 1 shards");
-        execute("insert into t1 ( i, d, t, str) values " +
-                "(null, null, null, null), " +
-                "(null, 1.1, null, 'a'), " +
-                "(2, 2.2, null, null)," +
-                "(null, 3.3, 1521479461, null), " +
-                "(4, null, 1521479462, 'b'), " +
-                "(null, 1.0, null, null)");
+        execute("insert into t1 ( i, d, t_z, t, str) values " +
+                "(null, null, null, null, null), " +
+                "(null, 1.1, null, null, 'a'), " +
+                "(2, 2.2, null, null, null)," +
+                "(null, 3.3, 1521479461, null, null), " +
+                "(4, null, 1521479462, null, 'b'), " +
+                "(null, null, null, 1521479461, null), " +
+                "(null, null, null, 1521479463, null), " +
+                "(null, 1.0, null, null, null)");
         refresh();
 
         execute("select str from t1 order by upper(str) limit 5");
@@ -167,7 +170,10 @@ public class SelectOrderByIntegrationTest extends SQLTransportIntegrationTest {
         execute("select i from t1 order by ceil(i)");
         assertThat(response.rows()[0][0], is(2));
 
-        execute("select t from t1 order by date_trunc('year', 'Europe/London', t)");
+        execute("select t_z from t1 order by date_trunc('year', 'Europe/London', t_z)");
+        assertThat(response.rows()[0][0], is(1521479461L));
+
+        execute("select t from t1 order by t");
         assertThat(response.rows()[0][0], is(1521479461L));
     }
 }

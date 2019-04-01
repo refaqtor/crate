@@ -45,6 +45,7 @@ import io.crate.types.ObjectType;
 import io.crate.types.SetType;
 import io.crate.types.ShortType;
 import io.crate.types.StringType;
+import io.crate.types.TimestampType;
 import io.crate.types.TimestampZType;
 import org.elasticsearch.index.IndexSettings;
 import org.elasticsearch.index.mapper.MappedFieldType;
@@ -128,6 +129,7 @@ public class LuceneReferenceResolver implements ReferenceResolver<LuceneCollecto
             case FloatType.ID:
                 return new FloatColumnReference(fqn, fieldType);
             case LongType.ID:
+            case TimestampType.ID:
             case TimestampZType.ID:
                 return new LongColumnReference(fqn);
             case IntegerType.ID:

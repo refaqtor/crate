@@ -250,9 +250,6 @@ public class AnalyzedColumnDefinition {
 
     String typeNameForESMapping() {
         switch (dataType.id()) {
-            case TimestampZType.ID:
-                return "date";
-
             case StringType.ID:
                 return analyzer == null && !isIndex ? "keyword" : "text";
 

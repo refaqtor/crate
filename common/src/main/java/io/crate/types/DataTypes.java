@@ -68,7 +68,9 @@ public final class DataTypes {
     public static final ShortType SHORT = ShortType.INSTANCE;
     public static final IntegerType INTEGER = IntegerType.INSTANCE;
     public static final LongType LONG = LongType.INSTANCE;
+
     public static final TimestampZType TIMESTAMPZ = TimestampZType.INSTANCE;
+    public static final TimestampType TIMESTAMP = TimestampType.INSTANCE;
 
     public static final GeoPointType GEO_POINT = GeoPointType.INSTANCE;
     public static final GeoShapeType GEO_SHAPE = GeoShapeType.INSTANCE;
@@ -88,7 +90,8 @@ public final class DataTypes {
         SHORT,
         INTEGER,
         LONG,
-        TIMESTAMPZ
+        TIMESTAMPZ,
+        TIMESTAMP
     );
 
     public static final ImmutableList<DataType> NUMERIC_PRIMITIVE_TYPES = ImmutableList.of(
@@ -116,6 +119,7 @@ public final class DataTypes {
         .put(IntegerType.ID, () -> INTEGER)
         .put(LongType.ID, () -> LONG)
         .put(TimestampZType.ID, () -> TIMESTAMPZ)
+        .put(TimestampType.ID, () -> TIMESTAMP)
         .put(ObjectType.ID, ObjectType::untyped)
         .put(GeoPointType.ID, () -> GEO_POINT)
         .put(GeoShapeType.ID, () -> GEO_SHAPE)
@@ -127,7 +131,7 @@ public final class DataTypes {
     private static final Set<DataType> NUMBER_CONVERSIONS = ImmutableSet.<DataType>builder()
         .addAll(NUMERIC_PRIMITIVE_TYPES)
         .add(BOOLEAN)
-        .add(STRING, TIMESTAMPZ, IP)
+        .add(STRING, TIMESTAMPZ, TIMESTAMP, IP)
         .build();
     // allowed conversion from key to one of the value types
     // the key type itself does not need to be in the value set
@@ -148,6 +152,7 @@ public final class DataTypes {
             .build())
         .put(IP.id(), ImmutableSet.of(STRING))
         .put(TIMESTAMPZ.id(), ImmutableSet.of(DOUBLE, LONG, STRING))
+        .put(TIMESTAMP.id(), ImmutableSet.of(DOUBLE, LONG, STRING))
         .put(UNDEFINED.id(), ImmutableSet.of()) // actually convertible to every type, see NullType
         .put(GEO_POINT.id(), ImmutableSet.of(new ArrayType(DOUBLE)))
         .put(GEO_SHAPE.id(), ImmutableSet.of(ObjectType.untyped()))
@@ -161,10 +166,10 @@ public final class DataTypes {
      * used to store the value)
      */
     private static final ImmutableMap<Integer, Set<DataType>> SAFE_CONVERSIONS = ImmutableMap.<Integer, Set<DataType>>builder()
-        .put(BYTE.id(), ImmutableSet.of(SHORT, INTEGER, LONG, TIMESTAMPZ, FLOAT, DOUBLE))
-        .put(SHORT.id(), ImmutableSet.of(INTEGER, LONG, TIMESTAMPZ, FLOAT, DOUBLE))
-        .put(INTEGER.id(), ImmutableSet.of(LONG, TIMESTAMPZ, FLOAT, DOUBLE))
-        .put(LONG.id(), ImmutableSet.of(TIMESTAMPZ, DOUBLE))
+        .put(BYTE.id(), ImmutableSet.of(SHORT, INTEGER, LONG, TIMESTAMPZ, TIMESTAMP, FLOAT, DOUBLE))
+        .put(SHORT.id(), ImmutableSet.of(INTEGER, LONG, TIMESTAMPZ, TIMESTAMP, FLOAT, DOUBLE))
+        .put(INTEGER.id(), ImmutableSet.of(LONG, TIMESTAMPZ, TIMESTAMP, FLOAT, DOUBLE))
+        .put(LONG.id(), ImmutableSet.of(TIMESTAMPZ, TIMESTAMP, DOUBLE))
         .put(FLOAT.id(), ImmutableSet.of(DOUBLE))
         .build();
 
@@ -297,9 +302,11 @@ public final class DataTypes {
         .put(INTEGER.getName(), INTEGER)
         .put(LONG.getName(), LONG)
         .put(TIMESTAMPZ.getName(), TIMESTAMPZ)
+        .put(TIMESTAMP.getName(), TIMESTAMP)
         .put(ObjectType.NAME, ObjectType.untyped())
         .put(GEO_POINT.getName(), GEO_POINT)
         .put(GEO_SHAPE.getName(), GEO_SHAPE)
+        .put("timestamp without time zone", TIMESTAMP)
         .put("int2", SHORT)
         .put("int", INTEGER)
         .put("int4", INTEGER)
@@ -342,6 +349,7 @@ public final class DataTypes {
 
     private static final Map<Integer, String> TYPE_IDS_TO_MAPPINGS = Map.ofEntries(
         entry(TIMESTAMPZ.id(), "date"),
+        entry(TIMESTAMP.id(), "date"),
         entry(STRING.id(), "text"),
         entry(BYTE.id(), "byte"),
         entry(BOOLEAN.id(), "boolean"),

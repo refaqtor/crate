@@ -539,6 +539,7 @@ public class SQLTypeMappingTest extends SQLTransportIntegrationTest {
         // This is a regression test that we allow timestamps that have more than 13 digits.
         execute(
             "create table ts_table (" +
+            "   ts_z timestamp with time zone," +
             "   ts timestamp with time zone" +
             ") clustered into 2 shards with (number_of_replicas=0)");
         ensureYellow();
@@ -549,12 +550,12 @@ public class SQLTypeMappingTest extends SQLTransportIntegrationTest {
         // equivalent to -29719-04-05T22:13:20.001Z
         long minDateMillis = -999999999999999L;
 
-        execute("insert into ts_table (ts) values (?)", new Object[]{ minDateMillis });
-        execute("insert into ts_table (ts) values (?)", new Object[]{ 0L });
-        execute("insert into ts_table (ts) values (?)", new Object[]{ maxDateMillis });
+        execute("insert into ts_table (ts_z, ts) values (?, ?)", new Object[]{ minDateMillis, minDateMillis });
+        execute("insert into ts_table (ts_z, ts) values (?, ?)", new Object[]{ 0L, 0L });
+        execute("insert into ts_table (ts_z, ts) values (?, ?)", new Object[]{ maxDateMillis, maxDateMillis });
         // TODO: select timestamps with correct sorting
         refresh();
-        SQLResponse response = execute("select * from ts_table order by ts desc");
+        SQLResponse response = execute("select * from ts_table order by ts_z, ts desc");
         assertEquals(response.rowCount(), 3L);
     }
 

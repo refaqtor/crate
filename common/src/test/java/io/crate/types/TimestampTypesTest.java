@@ -22,4 +22,23 @@ public class TimestampTypesTest {
         assertThat(TimestampZType.INSTANCE.value("1999-01-08T04:00:00+01"), is(915764400000L));
         assertThat(TimestampZType.INSTANCE.value("1999-01-08T04:00:00.123456789+01"), is(915764400123L));
     }
+
+    @Test
+    public void testTimestampWithoutZoneParseWithOffset() {
+        long expected = 915768000000L;
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00Z"), is(expected));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00+09:00"), is(expected));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00+0900"), is(expected));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00-0100"), is(expected));
+
+    }
+
+    @Test
+    public void testTimestampWithoutZoneParseWithoutOffset() {
+        long expected = 915768000000L;
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00"), is(expected));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00.123456789"), is(expected + 123));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00+01"), is(expected));
+        assertThat(TimestampType.INSTANCE.value("1999-01-08T04:00:00.123456789+01:00"), is(expected + 123));
+    }
 }

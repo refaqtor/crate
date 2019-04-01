@@ -42,6 +42,7 @@ import io.crate.types.LongType;
 import io.crate.types.ObjectType;
 import io.crate.types.ShortType;
 import io.crate.types.StringType;
+import io.crate.types.TimestampType;
 import io.crate.types.TimestampZType;
 
 import java.util.Arrays;
@@ -98,6 +99,7 @@ public class DataTypeTesting {
                 return () -> (T) (Integer) random.nextInt();
 
             case LongType.ID:
+            case TimestampType.ID:
             case TimestampZType.ID:
                 return () -> (T) (Long) random.nextLong();
 

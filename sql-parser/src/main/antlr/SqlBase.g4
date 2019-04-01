@@ -533,7 +533,7 @@ rerouteOption
     ;
 
 dataType
-    : definedDataType           #defDataType
+    : definedDataType           #definedDataTypeDefault
     | ident                     #dataTypeIdent
     | objectTypeDefinition      #objectDataType
     | arrayTypeDefinition       #arrayDataType
@@ -542,6 +542,7 @@ dataType
 
 definedDataType
     : DOUBLE PRECISION
+    | TIMESTAMP (WITHOUT TIME ZONE)?
     | TIMESTAMP WITH TIME ZONE
     ;
 
@@ -656,7 +657,7 @@ nonReserved
     | GRAPHVIZ | HOUR | IGNORED | KEY | KILL | LICENSE | LOGICAL | LOCAL | MATERIALIZED | MINUTE
     | MONTH | OFF | ONLY | OVER | OPTIMIZE | PARTITION | PARTITIONED | PARTITIONS | PLAIN
     | PRECEDING | RANGE | REFRESH | ROW | ROWS | SCHEMAS | SECOND | SESSION
-    | SHARDS | SHOW | STORAGE | STRICT | SYSTEM | TABLES | TABLESAMPLE | TEXT | TIME | ZONE
+    | SHARDS | SHOW | STORAGE | STRICT | SYSTEM | TABLES | TABLESAMPLE | TEXT | TIME | ZONE | WITHOUT
     | TIMESTAMP | TO | TOKENIZER | TOKEN_FILTERS | TYPE | VALUES | VIEW | YEAR
     | REPOSITORY | SNAPSHOT | RESTORE | GENERATED | ALWAYS | BEGIN | COMMIT
     | ISOLATION | TRANSACTION | CHARACTERISTICS | LEVEL | LANGUAGE | OPEN | CLOSE | RENAME
@@ -750,6 +751,7 @@ FOLLOWING: 'FOLLOWING';
 CURRENT: 'CURRENT';
 ROW: 'ROW';
 WITH: 'WITH';
+WITHOUT: 'WITHOUT';
 RECURSIVE: 'RECURSIVE';
 CREATE: 'CREATE';
 BLOB: 'BLOB';

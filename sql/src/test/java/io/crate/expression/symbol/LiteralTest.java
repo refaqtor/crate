@@ -34,7 +34,7 @@ import static org.hamcrest.Matchers.is;
 public class LiteralTest extends CrateUnitTest {
 
     @Test
-    public void testNestedArrayLiteral() throws Exception {
+    public void testNestedArrayLiteral() {
         for (DataType type : DataTypes.PRIMITIVE_TYPES) {
             DataType nestedType = new ArrayType(new ArrayType(type));
             Object value;
@@ -44,7 +44,7 @@ public class LiteralTest extends CrateUnitTest {
             } else if (type.id() == DataTypes.IP.id()) {
                 value = type.value("123.34.243.23");
             } else {
-                value = type.value("0");
+                value = type.value(0);
             }
 
             Object nestedValue = new Object[][]{

@@ -123,7 +123,7 @@ public class SelectPlannerTest extends CrateDummyClusterServiceUnitTest {
                 "create table parted (" +
                 "   id int," +
                 "   name string," +
-                "   date timestamp with time zone," +
+                "   date timestamp," +
                 "   obj object" +
                 ") partitioned by (date) ",
                 new PartitionName(new RelationName("doc", "parted"), singletonList("1395874800000")).asIndexName(),
