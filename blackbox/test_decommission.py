@@ -130,8 +130,10 @@ class GracefulStopTest(unittest.TestCase):
         # auto-discovery with unicast on the same host only works if all nodes are configured with the same port range
         transport_port_range = bind_range(range_size=self.num_servers)
         for i in range(self.num_servers):
+            crate_dir = crate_path()
+            print(crate_dir)
             layer = GracefulStopCrateLayer(
-                crate_dir=crate_path(),
+                crate_dir=crate_dir,
                 settings={
                     'cluster.name': self.__class__.__name__,
                     'node.name': self.node_name(i),
@@ -177,7 +179,7 @@ class GracefulStopTest(unittest.TestCase):
 
 class TestGracefulStopPrimaries(GracefulStopTest):
 
-    NUM_SERVERS = 2
+    NUM_SERVERS = 3
 
     def setUp(self):
         super().setUp()
@@ -246,7 +248,7 @@ class TestGracefulStopFull(GracefulStopTest):
 
 class TestGracefulStopNone(GracefulStopTest):
 
-    NUM_SERVERS = 2
+    NUM_SERVERS = 3
 
     def setUp(self):
         super().setUp()
@@ -304,7 +306,6 @@ class TestGracefulStopDuringQueryExecution(GracefulStopTest):
             CLUSTERED INTO 4 SHARDS
             WITH (number_of_replicas = 1)
         ''')
-        self.set_settings({'discovery.zen.minimum_master_nodes': 2})
 
         def bulk_params():
             for i in range(5000):
