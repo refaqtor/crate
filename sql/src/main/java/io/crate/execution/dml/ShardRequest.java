@@ -127,7 +127,8 @@ public abstract class ShardRequest<T extends ShardRequest<T, I>, I extends Shard
         protected long version = Versions.MATCH_ANY;
 
         private int location = -1;
-        private long seqNo = SequenceNumbers.UNASSIGNED_SEQ_NO;
+        protected long seqNo = SequenceNumbers.UNASSIGNED_SEQ_NO;
+        protected long primaryTerm = SequenceNumbers.UNASSIGNED_PRIMARY_TERM;
 
         public Item(String id) {
             this.id = id;
@@ -166,6 +167,14 @@ public abstract class ShardRequest<T extends ShardRequest<T, I>, I extends Shard
 
         public void seqNo(long seqNo) {
             this.seqNo = seqNo;
+        }
+
+        public long primaryTerm() {
+            return primaryTerm;
+        }
+
+        public void primaryTerm(long primaryTerm) {
+            this.primaryTerm = primaryTerm;
         }
 
         public void writeTo(StreamOutput out) throws IOException {

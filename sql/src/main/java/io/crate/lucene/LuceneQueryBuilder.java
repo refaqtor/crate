@@ -210,6 +210,9 @@ public class LuceneQueryBuilder {
          */
         static final Map<String, String> UNSUPPORTED_FIELDS = ImmutableMap.<String, String>builder()
             .put("_version", VersionInvalidException.ERROR_MSG)
+            // TODO: beautify
+            .put("_seq_no", "Errrm SN")
+            .put("_primary_term", "Errrm PT")
             .build();
 
         @Nullable

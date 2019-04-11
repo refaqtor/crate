@@ -44,7 +44,7 @@ public class DocKeysTest extends CrateUnitTest {
         List<List<Symbol>> pks = ImmutableList.<List<Symbol>>of(
             ImmutableList.<Symbol>of(Literal.of(1), Literal.of("Ford"))
         );
-        DocKeys docKeys = new DocKeys(pks, false, 1, null);
+        DocKeys docKeys = new DocKeys(pks, false, false, 1, null);
         DocKeys.DocKey key = docKeys.getOnlyKey();
         CoordinatorTxnCtx txnCtx = CoordinatorTxnCtx.systemTransactionContext();
         assertThat(key.getRouting(txnCtx, getFunctions(), Row.EMPTY, SubQueryResults.EMPTY), is("Ford"));
