@@ -132,8 +132,8 @@ Deprecations
 Changes
 =======
 
-- Added support for scalar function evaluation as
-  :ref:`Table functions <table-functions-scalar>`.
+- Enabled Scalar function evaluation when used :ref:`in the query FROM
+  clause <table-functions-scalar>`.
 
 - Show the session setting description in the output of the ``SHOW ALL``
   statement.

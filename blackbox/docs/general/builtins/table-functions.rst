@@ -36,9 +36,9 @@ values will be returned for the functions that are exhausted. An example::
 
 .. NOTE::
 
-  In addition to the pure table functions listed below,
-  :ref:`<scalar>` can also be used :ref:`in the context of the
-  FROM clause <table-functions-scalar>`.
+  In addition to the pure table functions listed below, :ref:`scalar`
+  can also be used :ref:`in the context of the FROM clause
+  <table-functions-scalar>`.
 
 .. rubric:: Table of Contents
 
