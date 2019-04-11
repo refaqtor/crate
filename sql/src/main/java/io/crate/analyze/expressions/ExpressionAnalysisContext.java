@@ -38,7 +38,7 @@ public class ExpressionAnalysisContext {
     private final Map<SubqueryExpression, Object> arrayExpressionsChildren = new IdentityHashMap<>();
 
     private boolean hasAggregates;
-    private boolean normaliseIfPossible = true;
+    private boolean allowEagerNormalize = true;
 
     void indicateAggregates() {
         hasAggregates = true;
@@ -48,12 +48,12 @@ public class ExpressionAnalysisContext {
         return hasAggregates;
     }
 
-    public boolean normaliseIfPossible() {
-        return normaliseIfPossible;
+    public boolean isEagerNormalizationAllowed() {
+        return allowEagerNormalize;
     }
 
-    public void setNormaliseIfPossible(boolean normaliseIfPossible) {
-        this.normaliseIfPossible = normaliseIfPossible;
+    public void allowEagerNormalize(boolean value) {
+        this.allowEagerNormalize = value;
     }
 
     /**

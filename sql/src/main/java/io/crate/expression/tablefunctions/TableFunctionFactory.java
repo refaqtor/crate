@@ -24,10 +24,9 @@ package io.crate.expression.tablefunctions;
 
 import io.crate.action.sql.SessionContext;
 import io.crate.analyze.WhereClause;
+import io.crate.data.ArrayBucket;
 import io.crate.data.Bucket;
 import io.crate.data.Input;
-import io.crate.data.Row;
-import io.crate.data.Row1;
 import io.crate.metadata.ColumnIdent;
 import io.crate.metadata.FunctionImplementation;
 import io.crate.metadata.FunctionInfo;
@@ -44,13 +43,10 @@ import io.crate.metadata.table.TableInfo;
 import io.crate.metadata.tablefunctions.TableFunctionImplementation;
 import org.elasticsearch.cluster.ClusterState;
 
-import javax.annotation.Nonnull;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 public class TableFunctionFactory {
 
@@ -69,20 +65,20 @@ public class TableFunctionFactory {
                 throw new UnsupportedOperationException(
                     String.format(
                         Locale.ENGLISH,
-                        "Window or Aggregate function: '%s' cannot be used as a table function",
+                        "Window or Aggregate function: '%s' is not allowed in function in FROM clause",
                         functionImplementation.info().ident().name()));
             default:
                 throw new UnsupportedOperationException(
                     String.format(
                         Locale.ENGLISH,
-                        "Unknown type of function: '%s' cannot be used as a table function",
+                        "Unknown type function: '%s' is not allowed in function in FROM clause",
                         functionImplementation.info().ident().name()));
         }
         return tableFunction;
     }
 
     /**
-     * Evaluates the {@Scalar} function and emits scalar result as a 1x1 table
+     * Evaluates the {@link Scalar} function and emits scalar result as a 1x1 table
      */
     private static class ScalarTableFunctionImplementation<T> extends TableFunctionImplementation<T> {
 
@@ -101,36 +97,7 @@ public class TableFunctionFactory {
 
         @Override
         public Bucket evaluate(TransactionContext txnCtx, Input<T>[] args) {
-            return new Bucket() {
-                @Override
-                public int size() {
-                    return 1;
-                }
-
-                @Override
-                @Nonnull
-                public Iterator<Row> iterator() {
-                    return new Iterator<>() {
-
-                        boolean consumed = false;
-
-                        @Override
-                        public boolean hasNext() {
-                            return !consumed;
-                        }
-
-                        @Override
-                        public Row next() {
-                            if (!hasNext()) {
-                                throw new NoSuchElementException("No more rows");
-                            }
-                            Row row = new Row1(functionImplementation.evaluate(txnCtx, args));
-                            consumed = true;
-                            return row;
-                        }
-                    };
-                }
-            };
+            return new ArrayBucket(new Object[][] {new Object[] {functionImplementation.evaluate(txnCtx,args)}});
         }
 
         @Override

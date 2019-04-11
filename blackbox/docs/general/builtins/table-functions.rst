@@ -36,10 +36,9 @@ values will be returned for the functions that are exhausted. An example::
 
 .. NOTE::
 
-  In addition to the pure table functions listed below, any :ref:`Scalar function
-  <table-functions-scalar>` can be used as a table function.
-  :ref:`Aggregation <aggregation>` and :ref:`Window <window-functions>`
-  functions, however, cannot be used in that context.
+  In addition to the pure table functions listed below,
+  :ref:`<scalar>` can also be used :ref:`in the context of the
+  FROM clause <table-functions-scalar>`.
 
 .. rubric:: Table of Contents
 
@@ -116,10 +115,10 @@ value will match the argument types.
 Scalar functions
 ================
 
-:ref:`scalar` can return a set of rows when used in the ``WHERE`` clause
+:ref:`scalar` can also return a set of rows when used in the ``FROM`` clause
 of a query as a table or subquery. The result set of such functions is always
-a relation of a one row and one column which contains the value returned
-from the scalar function.
+a relation of one row and one column which contains the value returned from
+the scalar function.
 
 ::
 

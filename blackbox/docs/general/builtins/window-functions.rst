@@ -128,11 +128,6 @@ Example::
    :ref:`Aggregation functions <aggregation>` will be treated as
    ``window functions`` when used in conjuction with the ``OVER`` clause.
 
-.. WARNING::
-
-  A Window function cannot be used as a
-  :ref:`Table function<ref-table-functions>`.
-
 .. _over:
 
 OVER

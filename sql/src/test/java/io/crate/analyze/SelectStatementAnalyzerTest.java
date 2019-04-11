@@ -1872,7 +1872,7 @@ public class SelectStatementAnalyzerTest extends CrateDummyClusterServiceUnitTes
     }
 
     @Test
-    public void testScalarAsTableFunction() {
+    public void testScalarCanBeUsedInFromClause() {
         QueriedRelation relation = analyze("select * from abs(1)");
         assertThat(relation.querySpec().outputs(), isSQL("abs"));
         assertThat(relation.fields(), isSQL("abs"));
@@ -1887,16 +1887,16 @@ public class SelectStatementAnalyzerTest extends CrateDummyClusterServiceUnitTes
     }
 
     @Test
-    public void testWindowCannotBeUsedAsTableFunction() {
+    public void testWindowFunctionCannotBeUsedInFromClause() {
         expectedException.expect(UnsupportedOperationException.class);
-        expectedException.expectMessage("Window or Aggregate function: 'row_number' cannot be used as a table function");
+        expectedException.expectMessage("Window or Aggregate function: 'row_number' is not allowed in function in FROM clause");
         analyze("select * from row_number()");
     }
 
     @Test
-    public void testAggregateCannotBeUsedAsTableFunction() {
+    public void testAggregateCannotBeUsedInFromClause() {
         expectedException.expect(UnsupportedOperationException.class);
-        expectedException.expectMessage("Window or Aggregate function: 'count' cannot be used as a table function");
+        expectedException.expectMessage("Window or Aggregate function: 'count' is not allowed in function in FROM clause");
         analyze("select * from count()");
     }
 

@@ -647,16 +647,18 @@ public class RelationAnalyzer extends DefaultTraversalVisitor<AnalyzedRelation, 
             null
         );
 
-        // forbid scalar function normalisation
-        // as we cannot handle literals in this context
-        context.expressionAnalysisContext().setNormaliseIfPossible(false);
-        Symbol symbol = expressionAnalyzer.convert(node.functionCall(), context.expressionAnalysisContext());
+        ExpressionAnalysisContext expressionContext = context.expressionAnalysisContext();
+        // we always require a Function symbol in this context
+        final boolean allowEagerNormalizeOriginalValue = expressionContext.isEagerNormalizationAllowed();
+        expressionContext.allowEagerNormalize(false);
+        Symbol symbol = expressionAnalyzer.convert(node.functionCall(), expressionContext);
+        expressionContext.allowEagerNormalize(allowEagerNormalizeOriginalValue);
 
         if (!(symbol instanceof Function)) {
             throw new UnsupportedOperationException(
                 String.format(
                     Locale.ENGLISH,
-                    "Non table function '%s' is not supported in from clause", node.name()));
+                    "Symbol '%s' is not supported in FROM clause", node.name()));
         }
         Function function = (Function) symbol;
         FunctionIdent ident = function.info().ident();
@@ -672,7 +674,7 @@ public class RelationAnalyzer extends DefaultTraversalVisitor<AnalyzedRelation, 
     @Override
     protected AnalyzedRelation visitTableSubquery(TableSubquery node, StatementAnalysisContext context) {
         if (!context.currentRelationContext().isAliasedRelation()) {
-            throw new UnsupportedOperationException("subquery in FROM must have an alias");
+            throw new UnsupportedOperationException("subquery in FROM clause must have an alias");
         }
         return super.visitTableSubquery(node, context);
     }

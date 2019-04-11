@@ -138,7 +138,7 @@ public class TableFunctionITest extends SQLTransportIntegrationTest {
     }
 
     @Test
-    public void testScalarFunctionsAreEvaluatedAsTableFunctions() {
+    public void testScalarCanBeUsedInFromClause() {
         execute("select * from substr('foo',1,2), array_cat([1], [2, 3])");
         assertThat(printedTable(response.rows()),
             is("fo| [1, 2, 3]\n"));
