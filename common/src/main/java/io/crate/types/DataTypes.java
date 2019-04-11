@@ -317,7 +317,7 @@ public final class DataTypes {
         // instead. In future releases the `timestamp` data type will be changed
         // to behave as a timestamp without time zone. For now, we use the
         // `timestamp` as an alias for the `timestamp with time zone` data type
-        // to warn users about change data types semantic and to provide a time
+        // to warn users about the data type semantic change and give a time
         // to adjust to the change.
         .put("timestamp", TIMESTAMP)
         .build();
