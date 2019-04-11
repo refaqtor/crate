@@ -132,6 +132,9 @@ Deprecations
 Changes
 =======
 
+- Added support for scalar function evaluation as
+  :ref:`Table functions <table-functions-scalar>`.
+
 - Show the session setting description in the output of the ``SHOW ALL``
   statement.
 

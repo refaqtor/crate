@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import io.crate.action.sql.SessionContext;
 import io.crate.analyze.relations.AnalyzedRelation;
 import io.crate.analyze.relations.QueriedRelation;
+import io.crate.analyze.relations.TableFunctionRelation;
 import io.crate.exceptions.ColumnUnknownException;
 import io.crate.exceptions.ConversionException;
 import io.crate.exceptions.RelationUnknown;
@@ -1845,13 +1846,6 @@ public class SelectStatementAnalyzerTest extends CrateDummyClusterServiceUnitTes
     }
 
     @Test
-    public void testSelectFromNonTableFunction() throws Exception {
-        expectedException.expect(UnsupportedOperationException.class);
-        expectedException.expectMessage("Non table function 'abs' is not supported in from clause");
-        analyze("select * from abs(1)");
-    }
-
-    @Test
     public void testMatchInExplicitJoinConditionIsProhibited() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Cannot use MATCH predicates on columns of 2 different relations");
@@ -1875,6 +1869,35 @@ public class SelectStatementAnalyzerTest extends CrateDummyClusterServiceUnitTes
         expectedException.expect(ColumnUnknownException.class);
         expectedException.expectMessage("Column col1['x'] unknown");
         analyze("select col1['x'] from unnest([{x=1}])");
+    }
+
+    @Test
+    public void testScalarAsTableFunction() {
+        QueriedRelation relation = analyze("select * from abs(1)");
+        assertThat(relation.querySpec().outputs(), isSQL("abs"));
+        assertThat(relation.fields(), isSQL("abs"));
+        assertThat(((QueriedTable) relation).tableRelation(), instanceOf(TableFunctionRelation.class));
+    }
+
+    @Test
+    public void testCannotUseSameTableNameMoreThanOnce() {
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("\"abs\" specified more than once in the FROM clause");
+        analyze("select * from abs(1), abs(5)");
+    }
+
+    @Test
+    public void testWindowCannotBeUsedAsTableFunction() {
+        expectedException.expect(UnsupportedOperationException.class);
+        expectedException.expectMessage("Window or Aggregate function: 'row_number' cannot be used as a table function");
+        analyze("select * from row_number()");
+    }
+
+    @Test
+    public void testAggregateCannotBeUsedAsTableFunction() {
+        expectedException.expect(UnsupportedOperationException.class);
+        expectedException.expectMessage("Window or Aggregate function: 'count' cannot be used as a table function");
+        analyze("select * from count()");
     }
 
     @Test

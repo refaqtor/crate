@@ -31,6 +31,11 @@ query result into one row, with one returned aggregation value.
 For a tabulated summary of aggregation functions, see
 :ref:`sql_dql_aggregation`.
 
+.. WARNING::
+
+  An aggregation function cannot be used as a
+  :ref:`table function<ref-table-functions>`.
+
 ``count``
 =========
 

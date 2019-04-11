@@ -53,6 +53,7 @@ import io.crate.expression.symbol.Literal;
 import io.crate.expression.symbol.Symbol;
 import io.crate.expression.symbol.SymbolType;
 import io.crate.expression.symbol.format.SymbolPrinter;
+import io.crate.expression.tablefunctions.TableFunctionFactory;
 import io.crate.metadata.CoordinatorTxnCtx;
 import io.crate.metadata.FunctionIdent;
 import io.crate.metadata.FunctionImplementation;
@@ -646,6 +647,9 @@ public class RelationAnalyzer extends DefaultTraversalVisitor<AnalyzedRelation, 
             null
         );
 
+        // forbid scalar function normalisation
+        // as we cannot handle literals in this context
+        context.expressionAnalysisContext().setNormaliseIfPossible(false);
         Symbol symbol = expressionAnalyzer.convert(node.functionCall(), context.expressionAnalysisContext());
 
         if (!(symbol instanceof Function)) {
@@ -657,13 +661,7 @@ public class RelationAnalyzer extends DefaultTraversalVisitor<AnalyzedRelation, 
         Function function = (Function) symbol;
         FunctionIdent ident = function.info().ident();
         FunctionImplementation functionImplementation = functions.getQualified(ident);
-        if (functionImplementation.info().type() != FunctionInfo.Type.TABLE) {
-            throw new UnsupportedOperationException(
-                String.format(
-                    Locale.ENGLISH,
-                    "Non table function '%s' is not supported in from clause", ident.name()));
-        }
-        TableFunctionImplementation tableFunction = (TableFunctionImplementation) functionImplementation;
+        TableFunctionImplementation tableFunction = TableFunctionFactory.from(functionImplementation);
         TableInfo tableInfo = tableFunction.createTableInfo();
         Operation.blockedRaiseException(tableInfo, statementContext.currentOperation());
         TableRelation tableRelation = new TableFunctionRelation(tableInfo, tableFunction, function);

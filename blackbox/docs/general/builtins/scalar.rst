@@ -5,7 +5,10 @@
 Scalar Functions
 ================
 
-Scalar functions return a single value (not a table).
+Scalar functions are functions that usually return a single value.
+The only exception to that is when they are used in the ``WHERE`` clause
+of a query as a relation or subquery, where they are evaluated
+as :ref:`Table functions <table-functions-scalar>`.
 
 .. rubric:: Table of Contents
 
